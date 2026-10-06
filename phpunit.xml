@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Runs inside the dev container against a real Nextcloud: dev/test.sh -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         cacheDirectory=".phpunit.cache"
+         colors="true"
+         failOnWarning="true"
+         failOnRisky="true">
+	<testsuites>
+		<testsuite name="bettersharing">
+			<directory>tests</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>

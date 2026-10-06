@@ -1,0 +1,23 @@
+{
+	"name": "outlawpractice/bettersharing",
+	"description": "Nextcloud app: guided sharing with firm presets",
+	"license": "AGPL-3.0-or-later",
+	"type": "project",
+	"require": {
+		"php": ">=8.2"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^12.0"
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"OCA\\BetterSharing\\Tests\\": "tests/"
+		}
+	},
+	"config": {
+		"platform": {
+			"php": "8.4"
+		},
+		"optimize-autoloader": true
+	}
+}

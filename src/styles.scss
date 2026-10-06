@@ -1,0 +1,101 @@
+// Shared BetterSharing styles. Colors come from Nextcloud's theme variables,
+// so light and dark themes both work.
+.bs-q {
+	font-size: 16px;
+	font-weight: bold;
+	margin: 0;
+}
+
+.bs-sub {
+	font-size: 13px;
+	color: var(--color-text-maxcontrast);
+	margin: 2px 0 0;
+}
+
+.bs-label {
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+}
+
+.bs-note {
+	font-size: 13px;
+	color: var(--color-text-maxcontrast);
+	margin: 0;
+}
+
+.bs-error {
+	color: var(--color-error-text);
+	margin: 0;
+}
+
+// Status text with a dot, never a pill (pills read as buttons).
+.bs-tag {
+	font-size: 13px;
+	white-space: nowrap;
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+
+	&::before {
+		content: '';
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: currentColor;
+	}
+
+	&.firm {
+		color: var(--color-success-text);
+	}
+
+	&.out {
+		color: var(--color-warning-text);
+	}
+}
+
+.bs-pinmark {
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+	font-size: 12px;
+	color: var(--color-text-maxcontrast);
+	margin-inline-start: 6px;
+}
+
+.bs-tools {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 8px;
+	align-items: end;
+
+	select {
+		margin: 0;
+		min-height: var(--default-clickable-area);
+	}
+
+	@media (max-width: 480px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.bs-lines {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 8px;
+
+	li {
+		display: grid;
+		grid-template-columns: 22px minmax(0, 1fr);
+		gap: 8px;
+		font-size: 14px;
+	}
+
+	&__how {
+		display: block;
+		color: var(--color-text-maxcontrast);
+		font-size: 13px;
+	}
+}

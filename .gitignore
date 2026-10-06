@@ -1,0 +1,10 @@
+/dev/seed.env
+/node_modules/
+/vendor/
+/js/
+/css/
+/.phpunit.cache/
+/test-results/
+/playwright-report/
+/build/
+/test-results/screens/

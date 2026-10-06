@@ -1,0 +1,40 @@
+# Local test instance for BetterSharing. Never point this at N5.
+# Nextcloud 34.0.4 (the version on N5), MariaDB, and Mailpit as the mail sink.
+# Nextcloud: http://127.0.0.1:8180   Mailpit: http://127.0.0.1:8125
+name: bettersharing-dev
+
+services:
+  db:
+    image: mariadb:11.4
+    environment:
+      MARIADB_ROOT_PASSWORD: dev-root-only
+      MARIADB_DATABASE: nextcloud
+      MARIADB_USER: nextcloud
+      MARIADB_PASSWORD: dev-db-only
+    command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+    volumes:
+      - db:/var/lib/mysql
+
+  mail:
+    image: axllent/mailpit:latest
+    ports:
+      - "127.0.0.1:8125:8025"
+
+  nextcloud:
+    image: nextcloud:34.0.4-apache
+    depends_on: [db, mail]
+    ports:
+      - "127.0.0.1:8180:80"
+    environment:
+      MYSQL_HOST: db
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_PASSWORD: dev-db-only
+      NEXTCLOUD_TRUSTED_DOMAINS: "127.0.0.1 localhost nextcloud"
+    volumes:
+      - html:/var/www/html
+      - ..:/var/www/html/custom_apps/bettersharing
+
+volumes:
+  db:
+  html:
