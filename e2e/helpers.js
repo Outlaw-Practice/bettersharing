@@ -5,7 +5,7 @@ const seed = Object.fromEntries(readFileSync(new URL('../dev/seed.env', import.m
 	.split('\n').filter(Boolean).map((l) => l.split('=')))
 
 export const PASSWORD = seed.USER_PASSWORD
-export const BASE = 'http://127.0.0.1:8180'
+export const BASE = 'http://127.0.0.1:8191'
 export const MAILPIT = 'http://127.0.0.1:8125'
 
 export async function login(page, user = 'alice') {
