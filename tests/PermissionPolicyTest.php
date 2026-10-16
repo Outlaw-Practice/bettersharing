@@ -119,6 +119,8 @@ class PermissionPolicyTest extends IntegrationTestCase {
 		try {
 			$occ('files_external:option', (string)$mountId, 'enable_sharing', 'true');
 			$occ('files_external:applicable', (string)$mountId, '--add-user=' . $this->a2->getUID());
+			\OC_Util::tearDownFS();
+			\OC_Util::setupFS($this->a2->getUID());
 			$a2Case = Server::get(IRootFolder::class)->getUserFolder($this->a2->getUID())->get('Ext-' . $this->suffix . '/Case');
 			$this->assertInstanceOf(\OCP\Files\Mount\IShareOwnerlessMount::class, $a2Case->getMountPoint(), 'an ownerless mount');
 			$this->assertTrue($this->downloadElsewhere($this->a2->getUID(), 'Ext-' . $this->suffix . '/Case'), 'nothing restricts the mount itself');

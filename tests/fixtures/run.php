@@ -11,6 +11,7 @@ require_once '/var/www/html/lib/base.php';
 \OC_App::loadApp('files_sharing');
 \OC_App::loadApp('notifications');
 \OC_App::loadApp('activity');
+\OC_App::loadApp('files_external');
 
 use OCA\BetterSharing\Service\BundleService;
 use OCA\BetterSharing\Service\PresetService;
@@ -21,6 +22,7 @@ use OCP\Server;
 [$_, $what, $uid, $json] = $argv;
 $user = Server::get(IUserManager::class)->get($uid);
 Server::get(IUserSession::class)->setUser($user);
+\OC_Util::setupFS($uid);
 $request = json_decode($json, true);
 try {
 	$result = match ($what) {
@@ -32,5 +34,6 @@ try {
 	};
 	echo json_encode(['ok' => true, 'id' => is_array($result) ? $result['id'] : $result->getId(), 'result' => $result]);
 } catch (\Throwable $e) {
-	echo json_encode(['ok' => false, 'error' => $e->getMessage()]);
+    echo json_encode(['ok' => false, 'error' => $e->getMessage(),
+        'error_class' => get_class($e), 'source_line' => $e->getLine()]);
 }

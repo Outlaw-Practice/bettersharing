@@ -12,3 +12,4 @@ require_once __DIR__ . '/../vendor/autoload.php';
 \OC_App::loadApp('files_sharing');
 \OC_App::loadApp('notifications');
 \OC_App::loadApp('activity');
+\OC_App::loadApp('files_external');

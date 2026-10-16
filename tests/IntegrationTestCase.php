@@ -79,8 +79,26 @@ abstract class IntegrationTestCase extends TestCase {
 			$d->delete('bettersharing_presets')->where($d->expr()->eq('firm', $d->createNamedParameter($firm)))->executeStatement();
 		}
 		Server::get(IUserSession::class)->setUser(null);
+		// Permit removal of this test's disposable accounts only in this PHP
+		// process; keep the installed retention policy intact for other workers.
+		$system = Server::get(\OC\SystemConfig::class);
+		$native = (new \ReflectionProperty(\OC\SystemConfig::class, 'config'))->getValue($system);
+		$deleteFixture = \Closure::bind(function ($owner): bool {
+			$key = 'files.trash.delete';
+			$had = array_key_exists($key, $this->envCache);
+			$previous = $this->envCache[$key] ?? null;
+			$this->envCache[$key] = true;
+			try { return $owner->delete(); }
+			finally {
+				if ($had) { $this->envCache[$key] = $previous; }
+				else { unset($this->envCache[$key]); }
+			}
+		}, $native, \OC\Config::class);
 		foreach ($this->users as $uid) {
-			Server::get(IUserManager::class)->get($uid)?->delete();
+			$owner = Server::get(IUserManager::class)->get($uid);
+			if ($owner !== null && !$deleteFixture($owner)) {
+				throw new \RuntimeException('Disposable account cleanup failed');
+			}
 		}
 		foreach ($this->groups as $gid) {
 			Server::get(IGroupManager::class)->get($gid)?->delete();
